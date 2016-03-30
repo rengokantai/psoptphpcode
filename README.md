@@ -4,6 +4,43 @@
 compile:
 ```
 phpize
+sudo make && sudo make install
+```
+config:
+```
+sudo vim /etc/php/7.0/fpm/php.ini
+```
+edit
+```
+[xhprof]
+extension=xhprof.so
+xhfprof.output_dir ="/var/tmp/xhprof"
+```
+restart
+```
+service php7.0-fpm restart
+chmod 777 !$  (last file)
+```
+
+
+######redis
+```
+apt-get install redis-server
+redis-benchmark -q -n 1000 -c 10 -P 3
+```
+change config
+```
+vim /etc/redis/redis.conf
+```
+edit
+```
+tcp-keepalive 60
+#bind 127.0.0.1  //can communicate everywhere
+appendonly yes
+```
+edit fpm
+```
+sudo vim /etc/php/7.0/fpm/php.ini
 ```
 #####choose web server
 ######nginx apache
@@ -16,6 +53,7 @@ tcp_nopush on; //send complete package instead small packages
 tcp_nodelay on;
 keepalive_timeout 50;
 
+```
 ```
 access_log /var/log/access.log combined buffer=64k flush=5m  //how much content should be buffered before writing to file, if hasnot hit buffersize in 5 min, still save
 gzip_min_length 1000
